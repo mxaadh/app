@@ -14,7 +14,7 @@ class AvatarUploadRequest extends FormRequest
                 'image',
                 'mimes:jpeg,png,jpg,gif,webp',
                 'max:2048', // 2MB max
-                'dimensions:min_width=100,min_height=100,max_width=2000,max_height=2000'
+//                'dimensions:min_width=100,min_height=100,max_width=2000,max_height=2000'
             ]
         ];
     }
@@ -31,7 +31,7 @@ class AvatarUploadRequest extends FormRequest
             'avatar.image' => 'The uploaded file must be an image.',
             'avatar.mimes' => 'The image must be a file of type: jpeg, png, jpg, gif, webp.',
             'avatar.max' => 'The image may not be greater than 2MB.',
-            'avatar.dimensions' => 'The image dimensions must be between 100x100 and 2000x2000 pixels.'
+//            'avatar.dimensions' => 'The image dimensions must be between 100x100 and 2000x2000 pixels.'
         ];
     }
 }
