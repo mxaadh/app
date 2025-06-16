@@ -22,6 +22,11 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'avatar', // Add this
+    ];
+
+    protected $appends = [
+        'avatar_url'
     ];
 
     /**
@@ -45,5 +50,10 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function getAvatarUrlAttribute()
+    {
+        return app(\App\Services\AvatarService::class)->getAvatarUrl($this->avatar);
     }
 }
