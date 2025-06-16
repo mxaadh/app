@@ -34,7 +34,7 @@ class AvatarService
     public function getAvatarUrl($avatarPath)
     {
         if (!$avatarPath) {
-            return asset('images/default-avatar.png'); // Default avatar
+            return asset('images/default-avatar.jpg'); // Default avatar
         }
 
         return Storage::disk('public')->url($avatarPath);
