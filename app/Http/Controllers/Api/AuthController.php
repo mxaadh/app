@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\EmailVerificationCode;
+use App\Notifications\EmailVerificationCode as EmailVerificationCodeNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
@@ -25,12 +27,18 @@ class AuthController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
+        // Generate and send verification code
+        $code = EmailVerificationCode::createForEmail($user->email);
+        $user->notify(new EmailVerificationCodeNotification($code));
+
         $token = $user->createToken('auth-token')->plainTextToken;
 
         return response()->json([
             'user' => $user,
             'token' => $token,
-            'message' => 'Registration successful'
+            'message' => 'Registration successful. Please check your email for verification code.',
+            'email_verification_required' => true,
+            'email_verified' => false
         ], 201);
     }
 
@@ -53,7 +61,8 @@ class AuthController extends Controller
         return response()->json([
             'user' => $user,
             'token' => $token,
-            'message' => 'Login successful'
+            'message' => 'Login successful',
+            'email_verified' => $user->hasVerifiedEmail()
         ]);
     }
 
